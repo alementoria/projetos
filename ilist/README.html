@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DyList — README</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #060B14;
+    --surface:  #0B1623;
+    --s2:       #0d1b2a;
+    --s3:       #1e293b;
+    --border:   rgba(255,255,255,0.07);
+    --accent:   #FF9900;
+    --cyan:     #06b6d4;
+    --green:    #10b981;
+    --red:      #ef4444;
+    --amber:    #f59e0b;
+    --purple:   #8b5cf6;
+    --text:     #f1f5f9;
+    --muted:    #94a3b8;
+    --muted2:   #64748b;
+    --mono:     'JetBrains Mono', monospace;
+    --sans:     'Syne', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 80px 40px 60px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,153,0,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #06b6d4, #FF9900, #ef4444);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,153,0,0.1);
+    border: 1px solid rgba(255,153,0,0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-size: clamp(38px, 6vw, 64px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    font-weight: 400;
+    max-width: 520px;
+    margin: 0 auto 32px;
+    font-family: var(--mono);
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--sans);
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary-hero {
+    background: linear-gradient(135deg, var(--accent), var(--amber));
+    color: #000;
+    box-shadow: 0 0 24px rgba(255,153,0,0.3);
+  }
+
+  .btn-primary-hero:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(255,153,0,0.4);
+  }
+
+  .btn-ghost-hero {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost-hero:hover {
+    border-color: rgba(255,255,255,0.2);
+    color: var(--text);
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ── SEÇÕES ── */
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--muted2);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+    line-height: 1.25;
+  }
+
+  h2 span { color: var(--accent); }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  p strong { color: var(--text); font-weight: 700; }
+
+  /* ── CARDS ── */
+  .cards {
+    display: grid;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .cards-2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .cards-3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+  .card {
+    background: var(--s2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: rgba(255,153,0,0.2);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .card h3 { font-size: 15px; margin-bottom: 6px; }
+
+  .card p {
+    font-size: 13px;
+    margin: 0;
+    color: var(--muted2);
+    line-height: 1.6;
+  }
+
+  .card-accent-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  /* ── MÓDULOS ── */
+  .module-grid {
+    display: grid;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .module-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--s2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    transition: border-color 0.15s;
+  }
+
+  .module-row:hover { border-color: rgba(255,255,255,0.12); }
+
+  .module-file {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--cyan);
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.15);
+    border-radius: 6px;
+    padding: 3px 9px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .module-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .module-desc strong { color: var(--text); }
+
+  /* ── DECISÃO ── */
+  .decision-block {
+    background: var(--s2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+
+  .decision-block h3 {
+    font-size: 14px;
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .decision-block p {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* ── RISCO ── */
+  .risk-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    background: var(--s2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+  }
+
+  .risk-scenario { font-size: 13px; color: var(--muted); }
+  .risk-scenario strong { color: var(--text); display: block; font-size: 14px; }
+
+  .risk-pill {
+    font-size: 11px;
+    font-family: var(--mono);
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .risk-low    { background: rgba(16,185,129,0.1);  color: var(--green);  border: 1px solid rgba(16,185,129,0.2); }
+  .risk-med    { background: rgba(245,158,11,0.1);  color: var(--amber);  border: 1px solid rgba(245,158,11,0.2); }
+  .risk-high   { background: rgba(239,68,68,0.1);   color: var(--red);    border: 1px solid rgba(239,68,68,0.2); }
+  .risk-crit   { background: rgba(139,92,246,0.1);  color: var(--purple); border: 1px solid rgba(139,92,246,0.2); }
+
+  .risk-time {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted2);
+    text-align: right;
+  }
+
+  /* ── CODE ── */
+  .code-block {
+    background: var(--bg);
+    border: 1px solid var(--s3);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 16px 0;
+    overflow-x: auto;
+  }
+
+  .code-block pre {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    white-space: pre;
+  }
+
+  .code-block pre .kw  { color: var(--cyan); }
+  .code-block pre .str { color: var(--green); }
+  .code-block pre .cmt { color: var(--muted2); font-style: italic; }
+  .code-block pre .cls { color: var(--accent); }
+  .code-block pre .fn  { color: #a78bfa; }
+
+  .code-label {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--muted2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* ── PILHA TECH ── */
+  .tech-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--s3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--muted);
+    margin: 4px;
+  }
+
+  .tech-pill span { font-size: 14px; }
+
+  /* ── CHANGELOG ── */
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+    margin-top: 20px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 4px; bottom: 4px;
+    width: 1px;
+    background: var(--s3);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 28px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -20px; top: 6px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .timeline-version {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .timeline-item h3 { font-size: 15px; margin-bottom: 4px; }
+  .timeline-item p  { font-size: 13px; margin: 0; }
+
+  /* ── FOOTER ── */
+  .readme-footer {
+    padding: 48px 0;
+    text-align: center;
+  }
+
+  .readme-footer p {
+    font-size: 13px;
+    color: var(--muted2);
+    font-family: var(--mono);
+    margin-bottom: 6px;
+  }
+
+  .readme-footer strong { color: var(--muted); }
+
+  /* ── DIVIDER ── */
+  .grad-hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,153,0,0.3), transparent);
+    margin: 0;
+  }
+
+  /* ── HONESTY BOX ── */
+  .honesty-box {
+    background: rgba(139,92,246,0.06);
+    border: 1px solid rgba(139,92,246,0.18);
+    border-radius: 14px;
+    padding: 24px 26px;
+    margin-top: 24px;
+  }
+
+  .honesty-box .hb-label {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .honesty-box p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+
+  .honesty-box p:last-child { margin-bottom: 0; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .hero { padding: 60px 20px 40px; }
+    .container { padding: 0 20px; }
+    .risk-row { grid-template-columns: 1fr; gap: 6px; }
+    .risk-time { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ─────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-bar"></div>
+  <div class="hero-badge">✦ portfólio aberto · uso gratuito</div>
+  <h1>Dy<span>List</span></h1>
+  <p class="hero-sub">Seu player do YouTube. Sem anúncios, sem algoritmo, sem distrações.</p>
+  <div class="hero-links">
+    <a href="index.html" class="btn-hero btn-primary-hero">▶ Abrir o App</a>
+    <a href="https://github.com/" class="btn-hero btn-ghost-hero">GitHub →</a>
+  </div>
+</div>
+
+<!-- ── O QUE É ─────────────────────────────────────────── -->
+<div class="container">
+<section>
+  <div class="section-label">01 · o produto</div>
+  <h2>O que é o <span>DyList</span></h2>
+  <p>
+    DyList é um player web para YouTube que coloca o controle de volta nas suas mãos.
+    Você monta suas playlists por categorias, reproduz sem interrupções e o algoritmo
+    não interfere. Funciona como PWA — instala no celular e roda offline com cache local.
+  </p>
+  <p>
+    É um projeto de portfólio pessoal, disponibilizado gratuitamente.
+    <strong>Não é um produto comercial</strong> — construído para demonstrar
+    capacidade técnica e de produto, não para monetizar.
+  </p>
+
+  <div class="cards cards-3">
+    <div class="card">
+      <div class="card-accent-top" style="background:linear-gradient(90deg,#06b6d4,#FF9900)"></div>
+      <span class="card-icon">📁</span>
+      <h3>Categorias inteligentes</h3>
+      <p>Organize vídeos em categorias com cores, drag & drop e filtro por categoria.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top" style="background:linear-gradient(90deg,#FF9900,#f59e0b)"></div>
+      <span class="card-icon">🔍</span>
+      <h3>Input unificado</h3>
+      <p>Detecta automaticamente link de vídeo, canal, playlist ou busca por texto.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top" style="background:linear-gradient(90deg,#10b981,#06b6d4)"></div>
+      <span class="card-icon">📲</span>
+      <h3>PWA + Offline</h3>
+      <p>Instala no celular, roda sem conexão via Service Worker e cache local.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top" style="background:linear-gradient(90deg,#8b5cf6,#ec4899)"></div>
+      <span class="card-icon">🌙</span>
+      <h3>Modo OLED</h3>
+      <p>Tela 100% preta com wake lock ativo. Economia real de bateria em AMOLED.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top" style="background:linear-gradient(90deg,#ef4444,#f97316)"></div>
+      <span class="card-icon">⏱</span>
+      <h3>Timer + 4 modos loop</h3>
+      <p>Desligamento automático, velocidade variável e modos normal, repetir, aleatório.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top" style="background:linear-gradient(90deg,#f59e0b,#10b981)"></div>
+      <span class="card-icon">💾</span>
+      <h3>Backup completo</h3>
+      <p>Exporta e importa tudo em JSON. Backup automático a cada 30 minutos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── ARQUITETURA ─────────────────────────────────────── -->
+<section>
+  <div class="section-label">02 · arquitetura</div>
+  <h2>Como o código está <span>organizado</span></h2>
+  <p>
+    Cada responsabilidade vive em seu próprio módulo. Não há framework — JavaScript
+    vanilla com separação de concerns deliberada. A decisão foi manter zero dependências
+    de build para que qualquer pessoa possa abrir, ler e modificar sem toolchain.
+  </p>
+
+  <div class="module-grid">
+    <div class="module-row">
+      <span class="module-file">app.js</span>
+      <p class="module-desc"><strong>Núcleo da aplicação.</strong> Estado global da playlist, renderização, drag & drop, ações (deletar, selecionar, limpar). Ponto de entrada que orquestra os outros módulos.</p>
+    </div>
+    <div class="module-row">
+      <span class="module-file">player.js</span>
+      <p class="module-desc"><strong>Wrapper da YouTube IFrame API.</strong> Controla play, pause, skip, velocidade, loop, Media Session API e atalhos de teclado. Ponto de risco principal — dependência da API do YouTube.</p>
+    </div>
+    <div class="module-row">
+      <span class="module-file">categories.js</span>
+      <p class="module-desc"><strong>Sistema de categorias.</strong> CRUD completo, drag & drop para reordenar, emoji picker, persistência no localStorage. Independente do player.</p>
+    </div>
+    <div class="module-row">
+      <span class="module-file">search-advanced.js</span>
+      <p class="module-desc"><strong>Input unificado.</strong> Detecta tipo de entrada (vídeo, canal, playlist, busca), consome YouTube Data API v3, paginação, modal de resultados com seleção em lote.</p>
+    </div>
+    <div class="module-row">
+      <span class="module-file">backup.js</span>
+      <p class="module-desc"><strong>Sistema de backup.</strong> Exporta e importa playlist + categorias + configurações em JSON. Auto-backup periódico e antes de fechar a aba.</p>
+    </div>
+    <div class="module-row">
+      <span class="module-file">equalizer.js</span>
+      <p class="module-desc"><strong>Equalizador 8 bandas.</strong> Usa Web Audio API para capturar e processar o áudio. Modos visual (espectro animado) e processamento real quando o contexto permite.</p>
+    </div>
+    <div class="module-row">
+      <span class="module-file">sidebar.js</span>
+      <p class="module-desc"><strong>Sidebar de tutoriais.</strong> Menu lateral com vídeos tutoriais, formulário de API key e atalho de teclado Ctrl+H.</p>
+    </div>
+    <div class="module-row">
+      <span class="module-file">onboarding.js</span>
+      <p class="module-desc"><strong>Balloons de onboarding.</strong> 4 passos sequenciais no primeiro acesso. Overlay SVG com recorte iluminado, seta direcional, dots de progresso. Salva conclusão no localStorage.</p>
+    </div>
+    <div class="module-row">
+      <span class="module-file">pwa.js</span>
+      <p class="module-desc"><strong>PWA + Service Worker.</strong> Registro via Blob URL, captura do prompt de instalação, wake lock e verificação de atualizações periódica.</p>
+    </div>
+    <div class="module-row">
+      <span class="module-file">ad-blocker.js</span>
+      <p class="module-desc"><strong>Bloqueio de anúncios externos.</strong> CSS blocking + DOM observer para elementos de propaganda fora do player. SponsorBlock-like para segmentos marcados manualmente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DECISÕES ────────────────────────────────────────── -->
+<section>
+  <div class="section-label">03 · decisões</div>
+  <h2>Por que foi feito <span>assim</span></h2>
+  <p>
+    Todo projeto acumula decisões. Essas são as que mais importam para entender o código.
+  </p>
+
+  <div class="decision-block">
+    <h3>Sem framework, sem build</h3>
+    <p>JavaScript vanilla com módulos carregados via <code style="font-family:var(--mono);font-size:12px;background:var(--s3);padding:2px 6px;border-radius:4px;color:var(--cyan)">&lt;script src&gt;</code> sequenciais. Qualquer editor de texto abre, qualquer servidor estático serve. Complexidade zero de toolchain foi uma escolha deliberada para um produto que precisa ser fácil de modificar e hospedar.</p>
+  </div>
+
+  <div class="decision-block">
+    <h3>localStorage como única persistência</h3>
+    <p>Todos os dados vivem no navegador. Isso significa que trocar de dispositivo ou limpar o cache apaga tudo — o backup manual em JSON existe exatamente por isso. A decisão foi consciente: adicionar backend adicionaria complexidade de infraestrutura e conta de usuário, o que não faz sentido para um projeto gratuito sem autenticação.</p>
+  </div>
+
+  <div class="decision-block">
+    <h3>Dependência total do YouTube</h3>
+    <p>O player depende inteiramente da YouTube IFrame API. Isso é um risco existencial documentado: se o YouTube mudar a API ou bloquear embeds, o player para de funcionar. A mitigação correta seria criar um <code style="font-family:var(--mono);font-size:12px;background:var(--s3);padding:2px 6px;border-radius:4px;color:var(--cyan)">YouTubeAdapter</code> isolado, facilitando a troca de plataforma. Essa refatoração está mapeada mas ainda não foi feita.</p>
+  </div>
+
+  <div class="decision-block">
+    <h3>Sem monetização por razões legais</h3>
+    <p>O DyList usa a YouTube IFrame API em contexto que potencialmente viola os Termos de Serviço do YouTube se comercializado. A decisão de distribuir gratuitamente, sem plano pago e sem anúncios, foi tomada conscientemente para manter o projeto dentro de uma zona legal defensável.</p>
+  </div>
+</section>
+
+<!-- ── RISCOS ──────────────────────────────────────────── -->
+<section>
+  <div class="section-label">04 · riscos conhecidos</div>
+  <h2>O que pode <span>quebrar</span></h2>
+  <p>
+    Transparência total: esses são os pontos frágeis do projeto, mapeados e aceitos.
+  </p>
+
+  <div class="risk-row">
+    <div class="risk-scenario">
+      <strong>oEmbed desativado</strong>
+      Busca de títulos por link para de funcionar
+    </div>
+    <div class="risk-pill risk-med">Médio</div>
+    <div class="risk-time">4–8h para migrar<br>para API Key</div>
+  </div>
+
+  <div class="risk-row">
+    <div class="risk-scenario">
+      <strong>Parâmetros da IFrame mudam</strong>
+      playerVars param deixam de funcionar
+    </div>
+    <div class="risk-pill risk-med">Médio</div>
+    <div class="risk-time">6–12h de correção</div>
+  </div>
+
+  <div class="risk-row">
+    <div class="risk-scenario">
+      <strong>IFrame API descontinuada</strong>
+      Player inteiro para de funcionar
+    </div>
+    <div class="risk-pill risk-high">Alto</div>
+    <div class="risk-time">1–2 semanas de<br>reescrita</div>
+  </div>
+
+  <div class="risk-row">
+    <div class="risk-scenario">
+      <strong>Embed bloqueado por domínio</strong>
+      Requer whitelist aprovada pelo YouTube
+    </div>
+    <div class="risk-pill risk-high">Alto</div>
+    <div class="risk-time">3–7 dias, parte<br>fora do nosso controle</div>
+  </div>
+
+  <div class="risk-row">
+    <div class="risk-scenario">
+      <strong>Embed totalmente desativado</strong>
+      Mudança estrutural na política do Google
+    </div>
+    <div class="risk-pill risk-crit">Crítico</div>
+    <div class="risk-time">Meses · mudança<br>de plataforma</div>
+  </div>
+</section>
+
+<!-- ── PRÓXIMOS PASSOS ─────────────────────────────────── -->
+<section>
+  <div class="section-label">05 · próximos passos</div>
+  <h2>O que vem <span>depois</span></h2>
+  <p>
+    Em ordem de impacto real, não de complexidade técnica.
+  </p>
+
+  <div class="decision-block" style="border-left-color:var(--cyan)">
+    <h3 style="color:var(--cyan)">1 · Abstrair o player (3–4h)</h3>
+    <p>Separar <code style="font-family:var(--mono);font-size:12px;background:var(--s3);padding:2px 6px;border-radius:4px;color:var(--cyan)">player.js</code> em <code style="font-family:var(--mono);font-size:12px;background:var(--s3);padding:2px 6px;border-radius:4px;color:var(--cyan)">PlayerCore.js</code> + <code style="font-family:var(--mono);font-size:12px;background:var(--s3);padding:2px 6px;border-radius:4px;color:var(--cyan)">YouTubeAdapter.js</code>. Não reescreve comportamento — só isola a dependência. Isso transforma um risco existencial em um arquivo trocável.</p>
+  </div>
+
+  <div class="decision-block" style="border-left-color:var(--purple)">
+    <h3 style="color:var(--purple)">2 · Suporte a SoundCloud</h3>
+    <p>SoundCloud tem embed estável, API pública generosa e não serve anúncios no widget. Adicionar um <code style="font-family:var(--mono);font-size:12px;background:var(--s3);padding:2px 6px;border-radius:4px;color:var(--purple)">SoundCloudAdapter</code> reduziria a dependência de uma única plataforma.</p>
+  </div>
+
+  <div class="decision-block" style="border-left-color:var(--green)">
+    <h3 style="color:var(--green)">3 · Unificar ad-blocker.js e premium.js</h3>
+    <p>Os dois arquivos fazem a mesma coisa com implementações levemente diferentes. Dívida técnica acumulada que precisa de consolidação antes de crescer mais.</p>
+  </div>
+</section>
+
+<!-- ── PILHA TECH ──────────────────────────────────────── -->
+<section>
+  <div class="section-label">06 · stack</div>
+  <h2>O que foi <span>usado</span></h2>
+
+  <div style="margin-top:16px;">
+    <span class="tech-pill"><span>🌐</span> HTML5 semântico</span>
+    <span class="tech-pill"><span>🎨</span> CSS custom properties</span>
+    <span class="tech-pill"><span>⚡</span> JavaScript vanilla ES2020+</span>
+    <span class="tech-pill"><span>📺</span> YouTube IFrame API</span>
+    <span class="tech-pill"><span>🔑</span> YouTube Data API v3</span>
+    <span class="tech-pill"><span>🔊</span> Web Audio API</span>
+    <span class="tech-pill"><span>📱</span> PWA / Service Worker</span>
+    <span class="tech-pill"><span>🔒</span> Wake Lock API</span>
+    <span class="tech-pill"><span>🎵</span> Media Session API</span>
+    <span class="tech-pill"><span>💾</span> localStorage</span>
+    <span class="tech-pill"><span>🔤</span> Syne + JetBrains Mono</span>
+  </div>
+
+  <p style="margin-top:20px;font-size:13px;">
+    Zero dependências de produção. Zero bundler. Zero framework.
+    Abre no VS Code e serve com qualquer servidor estático.
+  </p>
+</section>
+
+<!-- ── HONESTIDADE ─────────────────────────────────────── -->
+<section>
+  <div class="section-label">07 · honestidade</div>
+  <h2>O que este projeto <span>não é</span></h2>
+
+  <div class="honesty-box">
+    <div class="hb-label">✦ nota do autor</div>
+    <p>
+      DyList <strong>não é um produto comercial</strong> e não deve ser tratado como tal.
+      O uso da YouTube IFrame API para bloquear anúncios provavelmente viola os Termos de
+      Serviço do YouTube em contexto comercial. Distribuir gratuitamente é uma posição
+      legalmente mais defensável — mas não uma garantia.
+    </p>
+    <p>
+      O projeto existe como <strong>demonstração técnica</strong>: prova de que é possível
+      construir uma UX cuidada, código modular e uma experiência de produto real sem
+      framework, sem backend e sem infraestrutura.
+    </p>
+    <p>
+      Se você quiser usar, modificar ou se inspirar no código — fique à vontade.
+      Se quiser construir algo comercial em cima disso — leia os ToS do YouTube primeiro
+      e tome sua própria decisão consciente.
+    </p>
+  </div>
+</section>
+</div>
+
+<!-- ── FOOTER ──────────────────────────────────────────── -->
+<hr class="grad-hr">
+<div class="container">
+  <div class="readme-footer">
+    <p>Feito com atenção por <strong>Alexandre Nunes Torres</strong></p>
+    <p style="font-size:11px;">@alementoria &nbsp;·&nbsp; DyList v2.0 &nbsp;·&nbsp; 2026</p>
+  </div>
+</div>
+
+</body>
+</html>
